@@ -22,12 +22,8 @@ class ProductSize
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product_id = null;
 
-    #[ORM\ManyToMany(targetEntity: Reception::class, mappedBy: 'product_size_id')]
-    private Collection $receptions;
-
     public function __construct()
     {
-        $this->receptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,33 +51,6 @@ class ProductSize
     public function setProductId(?Product $product_id): static
     {
         $this->product_id = $product_id;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Reception>
-     */
-    public function getReceptions(): Collection
-    {
-        return $this->receptions;
-    }
-
-    public function addReception(Reception $reception): static
-    {
-        if (!$this->receptions->contains($reception)) {
-            $this->receptions->add($reception);
-            $reception->addProductSizeId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReception(Reception $reception): static
-    {
-        if ($this->receptions->removeElement($reception)) {
-            $reception->removeProductSizeId($this);
-        }
 
         return $this;
     }

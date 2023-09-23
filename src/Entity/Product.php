@@ -19,7 +19,7 @@ class Product
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $descriptio = null;
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
@@ -49,14 +49,14 @@ class Product
         return $this;
     }
 
-    public function getDescriptio(): ?string
+    public function getdescription(): ?string
     {
-        return $this->descriptio;
+        return $this->description;
     }
 
-    public function setDescriptio(?string $descriptio): static
+    public function setdescription(?string $description): static
     {
-        $this->descriptio = $descriptio;
+        $this->description = $description;
 
         return $this;
     }
