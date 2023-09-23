@@ -22,8 +22,12 @@ class ProductSize
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product_id = null;
 
+    #[ORM\OneToMany(mappedBy: 'product_size_id', targetEntity: Reception::class)]
+    private Collection $receptions;
+
     public function __construct()
     {
+        $this->receptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,6 +55,36 @@ class ProductSize
     public function setProductId(?Product $product_id): static
     {
         $this->product_id = $product_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reception>
+     */
+    public function getReceptions(): Collection
+    {
+        return $this->receptions;
+    }
+
+    public function addReception(Reception $reception): static
+    {
+        if (!$this->receptions->contains($reception)) {
+            $this->receptions->add($reception);
+            $reception->setProductSizeId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReception(Reception $reception): static
+    {
+        if ($this->receptions->removeElement($reception)) {
+            // set the owning side to null (unless already changed)
+            if ($reception->getProductSizeId() === $this) {
+                $reception->setProductSizeId(null);
+            }
+        }
 
         return $this;
     }

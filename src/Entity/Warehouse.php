@@ -24,8 +24,12 @@ class Warehouse
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
+    #[ORM\OneToMany(mappedBy: 'warehouse_id', targetEntity: Reception::class)]
+    private Collection $receptions;
+
     public function __construct()
     {
+        $this->receptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,6 +69,36 @@ class Warehouse
     public function setCity(string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reception>
+     */
+    public function getReceptions(): Collection
+    {
+        return $this->receptions;
+    }
+
+    public function addReception(Reception $reception): static
+    {
+        if (!$this->receptions->contains($reception)) {
+            $this->receptions->add($reception);
+            $reception->setWarehouseId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReception(Reception $reception): static
+    {
+        if ($this->receptions->removeElement($reception)) {
+            // set the owning side to null (unless already changed)
+            if ($reception->getWarehouseId() === $this) {
+                $reception->setWarehouseId(null);
+            }
+        }
 
         return $this;
     }
