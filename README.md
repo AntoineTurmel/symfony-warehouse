@@ -34,12 +34,13 @@ Projet sous Symfony 6 / PHP 8.1 pour gérer des produits avec tailles différent
   - home pour la page d'accueil
   - _partials pour les éléments réutilisables comme le menu
   - Les templates sont globalement constitutés d'un tableau HTML avec une fonction Twig bouclants sur les résultats des requêtes
+  - Utilisation de twig/intl-extra (pour formater l'affichage des dates)
 - Pour ce qui est du menu, j'ai créé un Service ainsi qu'un EventListener
   - une class MenuBuilder dans le Service permet de créer le contenu du menu, elle va contenir les différents éléments (label, routes)
   - un EventListener est un événement Symfony qui se déclenche à chaque demande pour construire le menu à chaque requête, on récupère le contenu du menu que l'on stocke dans un attribut "global_menu"
   - Le menu est ensuite affiché dans un template situé dans _partials/_menu.html.twig
   - Ce menu est inclu dans toutes les vues via la clause {{ include('_partials/_menu.html.twig') }} de Twig
-- Pour amélioré le visuel de l'application, j'ai installé webpack-encore puis bootstrap
+- Pour améliorer le visuel de l'application, j'ai installé webpack-encore puis bootstrap
   - webpack-encore permet de gérer les assets js/css et importer des bibliothèques
   - sass-loader permet de gérer des assets scss
   - Bootstrap permet d'avoir un meilleur rendu visuel
