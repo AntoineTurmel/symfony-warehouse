@@ -35,7 +35,7 @@
                 <td>{{ productReception.qty }}</td>
                 <td>
                     {% if(productReception.available_at != null) %}
-                    {{ productReception.available_at|format_datetime('medium', 'short', '', 'UTC') }}
+                    {{ productReception.available_at|format_datetime('full', 'none', locale='fr') }}
                     {% else %}
                     Disponible
                     {% endif %}
