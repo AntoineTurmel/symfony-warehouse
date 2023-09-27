@@ -8,11 +8,5 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WarehouseController extends AbstractController
 {
-    #[Route('/warehouse', name: 'app_warehouse')]
-    public function index(): Response
-    {
-        return $this->render('warehouse/index.html.twig', [
-            'controller_name' => 'WarehouseController',
-        ]);
-    }
+
 }
