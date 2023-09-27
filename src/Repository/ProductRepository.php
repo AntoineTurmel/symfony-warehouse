@@ -29,7 +29,8 @@ class ProductRepository extends ServiceEntityRepository
        return $this->createQueryBuilder('p')
             ->leftJoin('p.productSizes','ps')
             ->leftJoin('ps.receptions', 'r')
-           ->where('r.id IS NULL')
+            ->groupBy('p.id')
+            ->having('COUNT(r.id) = 0')
            ->getQuery()
            ->getResult()
        ;
