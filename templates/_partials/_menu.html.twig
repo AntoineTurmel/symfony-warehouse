@@ -1,0 +1,6 @@
+Menu :
+<ul>
+    {% for item in app.request.attributes.get('global_menu', []) %}
+        <li><a href="{{ path(item.route) }}">{{ item.label }}</a></li>
+    {% endfor %}
+</ul>
