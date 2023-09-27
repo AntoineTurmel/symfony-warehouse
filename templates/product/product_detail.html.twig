@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail produit : {{ product.name }}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Détail du produit : {{ product.name }}</h1>
+    <span>Description : {{ product.description }}</span><br>
+    <span>Référence : {{ product.reference }}</span>
+
+    <table class="table table-striped table-middle-aligned table-borderless">
+        <thead>
+            <tr>
+                <th scope="col">Taille</th>
+                <th scope="col">Id Magasin</th>
+                <th scope="col">Ville Magasin</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Disponible le</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for productReception in productReceptions %}
+            <tr>
+                <td>{{ productReception.size }}</td>
+                <td>{{ productReception.id }}</td>
+                <td>{{ productReception.city }}</td>
+                <td>{{ productReception.qty }}</td>
+                <td>
+                    {% if(productReception.available_at != null) %}
+                    {{ productReception.available_at|format_datetime('medium', 'short', '', 'UTC') }}
+                    {% else %}
+                    Disponible
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" align="center">Pas de produits en stock prévisionnel</td>
+           </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

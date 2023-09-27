@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stocks prévisionnels{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Stocks prévisionnels</h1>
+
+    <table class="table table-striped table-middle-aligned table-borderless">
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col" class="text-center">Référence</th>
+                <th scope="col" class="text-center">Taille</th>
+                <th scope="col" class="text-center">Quantité</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.description }}</td>
+                <td>{{ stock.reference }}</td>
+                <td>{{ stock.size }}</td>
+                <td>{{ stock.qty }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" align="center">Pas de produits en stock prévisionnel</td>
+           </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
