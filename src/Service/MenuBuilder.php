@@ -19,7 +19,7 @@ class MenuBuilder
     public function buildMenu()
     {
         $menu = [
-            //['label' => 'Accueil', 'route' => 'home'],
+            ['label' => 'Accueil', 'route' => 'app_home'],
             ['label' => 'Stocks prévisionnels', 'route' => 'forecast_stock'],
             ['label' => 'Stocks disponibles', 'route' => 'available_stock'],
             ['label' => 'Produits n\'ayant aucune disponibilité', 'route' => 'out_of_stock_products'],
