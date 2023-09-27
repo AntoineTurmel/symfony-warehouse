@@ -22,34 +22,6 @@ class ReceptionRepository extends ServiceEntityRepository
         parent::__construct($registry, Reception::class);
     }
 
-    public function findAllForecastStockAllWarehouses(): array
-    {
-        return $this->createQueryBuilder('r')
-             ->select('p.id product_id, p.name, p.description, p.reference, ps.size, SUM(r.qty) qty')
-             ->groupBy('ps.size')
-             ->leftJoin('r.product_size_id','ps')
-             ->leftJoin('ps.product_id','p')
-             ->leftJoin('r.warehouse_id', 'w')
-            ->where('r.available_at IS NOT NULL')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findAllAvailableStockAllWarehouses(): array
-    {
-        return $this->createQueryBuilder('r')
-             ->select('p.id product_id, p.name, p.description, p.reference, ps.size, SUM(r.qty) qty')
-             ->groupBy('ps.size')
-             ->leftJoin('r.product_size_id','ps')
-             ->leftJoin('ps.product_id','p')
-             ->leftJoin('r.warehouse_id', 'w')
-            ->where('r.available_at IS NULL')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     public function findAllReceptionsForProduct(Product $product): array
     {
         return $this->createQueryBuilder('r')
@@ -58,6 +30,7 @@ class ReceptionRepository extends ServiceEntityRepository
              ->leftJoin('ps.product_id','p')
              ->leftJoin('r.warehouse_id', 'w')
              ->where('ps.product_id =' . $product->getId())
+             ->orderBy('ps.size')
             ->getQuery()
             ->getResult()
         ;

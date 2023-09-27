@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reception;
 use App\Repository\ReceptionRepository;
+use App\Repository\ProductSizeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,16 +20,16 @@ class ReceptionController extends AbstractController
     }
 
     #[Route('/stock/forecast', name: 'forecast_stock')]
-    public function listProductsForecastStockAllWarehouses(ReceptionRepository $receptions): Response
+    public function listProductsForecastStockAllWarehouses(ProductSizeRepository $productSizes): Response
     {
-        $stocks = $receptions->findAllForecastStockAllWarehouses();
+        $stocks = $productSizes->findAllStockAllWarehouses(false);
         return $this->render('reception/forecast_stock_all_warehouses.html.twig', ['stocks' => $stocks]);
     }
 
     #[Route('/stock/available', name: 'available_stock')]
-    public function listProductsAvailableStockAllWarehouses(ReceptionRepository $receptions): Response
+    public function listProductsAvailableStockAllWarehouses(ProductSizeRepository $productSizes): Response
     {
-        $stocks = $receptions->findAllAvailableStockAllWarehouses();
+        $stocks = $productSizes->findAllStockAllWarehouses(true);
         return $this->render('reception/available_stock_all_warehouses.html.twig', ['stocks' => $stocks]);
     }
 }

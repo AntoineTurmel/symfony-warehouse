@@ -21,6 +21,27 @@ class ProductSizeRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductSize::class);
     }
 
+    public function findAllStockAllWarehouses(bool $available): array
+    {
+        if($available) {
+            $where = "r.available_at IS NULL";
+        } else {
+            $where = "r.available_at IS NOT NULL OR r.id IS NULL";
+        }
+        return $this->createQueryBuilder('ps')
+             ->select('p.id product_id, p.name, p.description, p.reference, ps.size, COALESCE(SUM(r.qty), 0) qty')
+             ->groupBy('ps.size')
+             ->addGroupBy('p.id')
+             ->leftJoin('ps.product_id', 'p')
+             ->leftJoin('ps.receptions','r')
+             ->leftJoin('r.warehouse_id', 'w')
+            ->where($where)
+            ->orderBy('p.id, ps.size')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return ProductSize[] Returns an array of ProductSize objects
 //     */
