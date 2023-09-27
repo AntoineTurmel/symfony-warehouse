@@ -18,6 +18,7 @@ Projet sous Symfony 6 / PHP 8.1 pour gérer des produits avec tailles différent
 - Require de l'ORM/maker-bundle
 - Création de la base de données
 - Création des entitées
+  - Pour savoir si un stock est prévisionnel on ajoute la date de réception dans "available_at", si ce champ est null, alors le stock est disponible
 - Création des migrations
 - Migration pour créer la base côté MariaDB
 - Création des controllers
