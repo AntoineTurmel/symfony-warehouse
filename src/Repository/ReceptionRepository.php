@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Reception;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,47 @@ class ReceptionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Reception::class);
+    }
+
+    public function findAllForecastStockAllWarehouses(): array
+    {
+        return $this->createQueryBuilder('r')
+             ->select('p.id product_id, p.name, p.description, p.reference, ps.size, SUM(r.qty) qty')
+             ->groupBy('ps.size')
+             ->leftJoin('r.product_size_id','ps')
+             ->leftJoin('ps.product_id','p')
+             ->leftJoin('r.warehouse_id', 'w')
+            ->where('r.available_at IS NOT NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllAvailableStockAllWarehouses(): array
+    {
+        return $this->createQueryBuilder('r')
+             ->select('p.id product_id, p.name, p.description, p.reference, ps.size, SUM(r.qty) qty')
+             ->groupBy('ps.size')
+             ->leftJoin('r.product_size_id','ps')
+             ->leftJoin('ps.product_id','p')
+             ->leftJoin('r.warehouse_id', 'w')
+            ->where('r.available_at IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllReceptionsForProduct(Product $product): array
+    {
+        return $this->createQueryBuilder('r')
+             ->select('ps.size, w.id, w.city, r.qty, r.available_at')
+             ->leftJoin('r.product_size_id','ps')
+             ->leftJoin('ps.product_id','p')
+             ->leftJoin('r.warehouse_id', 'w')
+             ->where('ps.product_id =' . $product->getId())
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**
